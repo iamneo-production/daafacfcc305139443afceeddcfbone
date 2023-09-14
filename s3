@@ -1,0 +1,31 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.50.0"
+    }
+  }
+}
+
+# Configure the AWS Provider
+provider "aws" {
+  region = "ap-south-1"
+  access_key = "AKIAUANFBX4S4HSA4PO3"
+  secret_key = "3BghoQNiAXN1T5yAGr0M7sfMRw4shGnY6ZI2Aiyk"
+}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = "sample6644"
+}
+
+resource "aws_s3_bucket_acl" "acl"{
+    bucket = aws_s3_bucket.bucket.id
+    acl = "public-read"
+}
+
+resource "aws_s3_object" "test" {
+  bucket = aws_s3_bucket.bucket.id
+  key    = "helloworld.txt"
+  source = "/home/coder/project/workspace/terraform/helloworld.txt"
+  acl = "public-read"
+}
